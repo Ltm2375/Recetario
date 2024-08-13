@@ -1,0 +1,114 @@
+{% extends 'layouts/plantilla.html' %}
+{% load static %}
+
+{% block content %}
+<form action="{% url 'buscarReceta' %}" method="post" class="formLogin">
+    {% csrf_token %}
+    <div class="form-container">
+        <div class="form-group">
+            <label for="">Seleccionar ingrediente:</label>
+            <select id="ingrediente" name="ingrediente" class="select">
+                {% for ingrediente in ingredientes %}
+                    <option value="{{ ingrediente.id }}">{{ ingrediente.nombre }}</option>
+                {% endfor %}
+            </select>
+            <input type="button" value="Agregar" class="btn btn-primary" style="margin-top: 10px; margin-left: 110px;" onclick="agregarIngrediente()">
+        </div>
+        <div>
+            <table id="tablaIngredientes">
+                <thead>
+                    <tr>
+                        <th>Nº</th>
+                        <th>Ingrediente</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+            
+        </div>
+        <input type="hidden" id="ingredientes_ids" name="ingredientes_ids">
+        <div class="form-group">
+            <label for="">Nùmero personas:</label>
+            <input type="text" style="width: 100px;">
+        </div>
+        <div class="form-actions">
+            <input type="submit" value="Buscar receta" class="btn btn-primary">
+            <input type="button" value="Cancelar" class="btn btn-secondary" >
+        </div>
+    </div>
+</form>
+<script>
+    let contador = 1;
+
+    function agregarIngrediente() {
+        const select = document.getElementById('ingrediente');
+        const selectedText = select.options[select.selectedIndex].text;
+        const selectedValue = select.value;
+        const hiddenField = document.getElementById('ingredientes_ids');
+        let selectedIds = hiddenField.value.split(',').filter(Boolean);
+
+        if (selectedValue) {
+            const tableBody = document.getElementById('tablaIngredientes').getElementsByTagName('tbody')[0];
+            const rows = tableBody.getElementsByTagName('tr');
+
+            // Verificar si el ingrediente ya está en la tabla
+            for (let row of rows) {
+                if (row.cells[1].textContent === selectedText) {
+                    alert("El ingrediente ya está en la tabla.");
+                    return;
+                }
+            }
+
+            // Crear una nueva fila
+            const newRow = tableBody.insertRow();
+            
+            // Crear las celdas de la fila
+            const cell1 = newRow.insertCell(0);
+            const cell2 = newRow.insertCell(1);
+            const cell3 = newRow.insertCell(2);
+
+            cell1.textContent = contador++;
+            cell2.textContent = selectedText;
+
+            // Añadir el botón para eliminar la fila
+            const removeButton = document.createElement('a');
+            removeButton.textContent = '🗙';
+            removeButton.href = '#';
+            removeButton.className = 'aBuscarReceta';
+            removeButton.onclick = function(event) {
+                event.preventDefault();
+                tableBody.removeChild(newRow);
+                actualizarNumeracion(); // Reordenar numeración
+                // Eliminar el ID del ingrediente del campo oculto
+                selectedIds = selectedIds.filter(id => id !== selectedValue);
+                hiddenField.value = selectedIds.join(',');
+            };
+            cell3.appendChild(removeButton);
+
+            // Agregar el ID del ingrediente al campo oculto
+            if (!selectedIds.includes(selectedValue)) {
+                selectedIds.push(selectedValue);
+            }
+            hiddenField.value = selectedIds.join(',');
+
+            select.value = ""; // Limpiar el select
+        }
+    }
+
+    function actualizarNumeracion() {
+        const tableBody = document.getElementById('tablaIngredientes').getElementsByTagName('tbody')[0];
+        const rows = tableBody.getElementsByTagName('tr');
+        let num = 1;
+
+        for (let row of rows) {
+            row.cells[0].textContent = num++;
+        }
+
+        // Ajustar el contador para el próximo elemento
+        contador = num;
+    }
+</script>
+{% endblock %}

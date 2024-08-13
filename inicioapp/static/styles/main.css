@@ -1,0 +1,361 @@
+html, body {
+    margin: 0;
+    height: 100%;/* asegura que el body ocupe toda la altura disponible de la ventana del navegador. */
+}
+
+body {
+    display: flex;
+    flex-direction: column;/* display: flex; y flex-direction: column; configura el body para que sus elementos hijos se distribuyan en una columna */
+    min-height: 100vh;/* asegura que el body tenga al menos la altura completa de la ventana del navegador, permitiendo que el footer quede en la parte inferior incluso cuando el contenido es insuficiente para llenar la pantalla*/
+    background-color: #333;
+}
+
+header {
+    background-color: darkseagreen;
+    color: black;
+    font-size: 40px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 15px;
+    border-style: double;
+    border-color: hsl(129, 55%, 29%);
+}
+
+.navbar {
+    background-color: darkseagreen;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 15px;
+    border-style: double;
+    border-color: hsl(129, 55%, 29%);
+}
+
+.navbar ul {
+    display: flex;
+    justify-content: space-evenly;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar li a {
+    font-size: 15px;
+    font-family: 'Times New Roman', Times, serif;
+    color: black;
+    text-decoration: none;
+}
+
+.navbar li a:hover {
+    color: hsl(128, 49%, 82%);
+}
+
+.divAsideSection {
+    display: flex;
+    flex: 1; /* Ocupa el espacio restante */
+}
+
+aside {
+    width: 10%; /* Puedes ajustar el porcentaje según sea necesario */
+    background-color: hwb(130 84% 11%);
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    border-radius: 15px;
+    border-style: double;
+    border-color: hsl(129, 55%, 29%);
+}
+aside a {
+    display: block; /* Hace que cada enlace ocupe toda la línea disponible */
+    margin-bottom: 10px; /* Espacio entre los enlaces */
+    color: black;
+    text-decoration: none;
+    padding: 5px;
+}
+aside a:hover {
+    color: #0f8d35;
+}
+
+section {
+    width: 90%; /* Puedes ajustar el porcentaje según sea necesario */
+    background-color: hwb(130 84% 11%);
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    border-radius: 15px;
+    border-style: double;
+    border-color: hsl(129, 55%, 29%);
+}
+
+footer {
+    background-color: darkseagreen;
+    color: black;
+    padding: 10px;
+    text-align: center;
+    border-radius: 15px;
+    border-style: double;
+    border-color: hsl(129, 55%, 29%);
+}
+
+.carousel {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    overflow: hidden;
+    border: 2px solid #ddd; /* Opcional: agrega un borde */
+    border-radius: 10px; /* Opcional: redondea las esquinas */
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    
+}
+
+.slide {
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+.slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+.contenedorIndex{
+    display: flex;
+    align-items: flex-start; /* Alinea verticalmente al inicio */
+    padding: 10px;
+}
+.img4{
+    width: 500px; 
+    height: 500px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;/* Combina bordes de celdas */
+    margin: 20px 0;/* Espacio alrededor de la tabla */
+    border-radius: 8px;/* Bordes redondeados en la tabla */
+    overflow: hidden;/* Esconde bordes desbordantes */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);/* Sombra alrededor de la tabla */
+    font-family: 'Arial', sans-serif;
+}
+
+th, td {
+    border: 1px solid #ddd;/* Borde de las celdas */
+    padding: 12px;/* Espaciado interno */
+    text-align: left;/* Alineación del texto */
+}
+
+th {
+    background-color: darkseagreen;
+    color: white;
+    font-size: 16px;
+}
+
+td {
+    background-color: #f2f2f2;
+    color: #333;
+    font-size: 14px;
+}
+
+tr:nth-child(even) {
+    background-color: darkseagreen;/* Color de fondo para filas pares */
+}
+
+tr:hover {
+    background-color: #f1f1f1;/* Color de fondo al pasar el ratón sobre una fila */
+}
+
+@media screen and (max-width: 600px) {/*Es una regla en CSS que permite aplicar estilos condicionalmente basados en características del dispositivo, como el ancho de la pantalla, la orientación, la resolución, etc*/
+    table {
+        border: 0;/* Quita el borde en pantallas pequeñas */
+    }
+
+    thead {
+        display: none;/* Oculta los encabezados de la tabla en pantallas pequeñas */
+    }
+
+    tr {
+        display: block;/* Muestra cada fila como un bloque */
+        margin-bottom: 10px;/* Espacio entre filas */
+    }
+
+    td {
+        display: block; /* Muestra cada celda como un bloque */
+        text-align: right; /* Alinea el texto a la derecha */
+        position: relative; /* Posiciona las etiquetas */
+        padding-left: 50%; /* Espacio para las etiquetas */ 
+    }
+
+    td::before {
+        content: attr(data-label); /* Muestra el texto del encabezado en cada celda */
+        position: absolute; /* Posición absoluta */
+        left: 0;
+        width: 45%; /* Ancho de la etiqueta */
+        padding-right: 10px; /* Espacio entre etiqueta y contenido */
+        white-space: nowrap; /* No permite el salto de línea en etiquetas */
+        font-weight: bold; /* Negrita en las etiquetas */
+    }
+}
+.formLogin{
+    display: flex;
+    justify-content: center;
+    padding-top: 10%;
+}
+.formRegistrar{
+    display: flex;
+}
+.form-container {
+    background-color: darkseagreen;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px hsla(125, 76%, 68%, 0.699);
+    width: 300px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    color: black;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: hwb(130 84% 11%);
+}
+
+.btn-secondary {
+    background-color: rgb(184, 224, 190);
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+select {
+    width: 100%; /* Ajusta el ancho para que ocupe el espacio disponible */
+    max-width: 300px; /* Limita el ancho máximo del select */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde de color gris claro */
+    border-radius: 4px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de fuente */
+    background-color: #fff; /* Color de fondo blanco */
+    color: #333; /* Color del texto */
+    appearance: none; /* Elimina el estilo predeterminado del navegador */
+    -webkit-appearance: none; /* Para navegadores WebKit (Chrome, Safari) */
+    -moz-appearance: none; /* Para Firefox */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el select */
+    outline: none; /* Elimina el contorno en el enfoque */
+}
+
+.aBuscarReceta{
+    font-size: 15px;
+    font-family: 'Times New Roman', Times, serif;
+    color: black;
+    text-decoration: none;
+}
+textarea {
+    width: 100%; /* Ocupa todo el ancho disponible del contenedor */
+    max-width: 280px; /* Ancho máximo del textarea */
+    height: 100px; /* Altura fija */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 4px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de fuente */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    resize: vertical; /* Permite al usuario cambiar el tamaño solo verticalmente */
+    outline: none; /* Elimina el contorno en el enfoque */
+}
+
+textarea:focus {
+    border-color: #007bff; /* Color del borde al enfocar el textarea */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Sombra al enfocar */
+}
+.inputcheckbox{
+    width: 20px; /* Ancho del checkbox */
+    height: 20px; /* Altura del checkbox */
+    margin-right: 10px; /* Espacio a la derecha del checkbox */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el checkbox */
+    accent-color: #007bff; /* Color del checkbox al estar marcado */
+    margin-top: 10px;
+}
+/* Estilo para el input tipo date */
+.custom-date-input {
+    border: 2px solid hsl(130, 34%, 43%); /* Color del borde */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 8px 12px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño del texto */
+    background-color: #f9f9f9; /* Color de fondo */
+    color: #333; /* Color del texto */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra sutil */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+}
+
+/* Estilo para el input tipo date al recibir foco */
+.custom-date-input:focus {
+    border-color: hsl(130, 34%, 43%); /* Color del borde al enfocar */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Sombra al enfocar */
+    outline: none; /* Elimina el contorno predeterminado */
+}
+/* Estilo para el contenedor del select con icono de flecha */
+select::-ms-expand {
+    display: none; /* Oculta el icono de flecha predeterminado en IE */
+}
+select:focus {
+    border-color: hsl(130, 34%, 43%); /* Color del borde al enfocarse */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Sombra al enfocarse */
+}
+
+/* Estilo para las opciones del select */
+option {
+    padding: 10px; /* Espaciado interno para las opciones */
+    background-color: #fff; /* Color de fondo de las opciones */
+    color: #333; /* Color del texto en las opciones */
+}

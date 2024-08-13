@@ -1,0 +1,37 @@
+{% extends 'layouts/plantilla.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div>
+    <h2>Asistencia técnica</h2>
+</div>
+<form action=""class="formLogin">
+    <div class="form-container">
+        <div class="form-group">
+            <label for="">Razón:</label>
+            <select id="fruit" name="fruit" class="select">
+                <option value="apple">Manzana</option>
+                <option value="banana">Plátano</option>
+                <option value="cherry">Cereza</option>
+                <option value="date">Dátil</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="">Otro motivo:</label>
+            <input type="text">
+            <input type="checkbox" name="" id="" class="inputcheckbox">
+        </div>
+        <div class="form-group">
+            <label for="">Descripción:</label>
+            <textarea name="" id="" rows="5" cols="30"></textarea>
+        </div>
+        <div class="form-actions">
+            <input type="button" value="Enviar" class="btn btn-primary">
+            <input type="button" value="Cancelar" class="btn btn-secondary">
+        </div>
+        
+    </div>
+</form>
+{%endblock%}

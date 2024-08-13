@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recetario</title>
+    <link rel="stylesheet" href="{% static '/styles/main.css' %}">
+</head>
+<body>
+    <header>Recetario Inteligente</header>
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'inicio' %}">Inicio</a></li>
+            <li><a href="{% url 'recetasComunes' %}">Recetas comunes</a></li>
+            <li><a href="{% url 'transparencia' %}">Transparencia</a></li>
+            <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+        </ul>
+    </nav>
+    
+    
+    <div class="divAsideSection">
+        <aside>
+            <a href="{% url 'indexBuscarReceta' %}">🔎Buscar receta</a>
+            <a href="{% url 'historialRecetas' %}">🧾Historial recetas</a>
+            <a href="{% url 'asistencia' %}">📪Asistencia técnica</a>
+            <a href="">🔐Cerrar Sesión</a>
+        </aside>
+
+        <section>
+           {% block content %}
+           {% endblock %}     
+        </section>
+    </div>
+    
+    <footer>Creado por Grupo 02</footer>
+</body>
+</html>

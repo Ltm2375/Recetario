@@ -1,0 +1,45 @@
+{% extends 'layouts/plantilla.html' %}
+
+{% load static %}
+
+{% block content %}
+<div>
+    <table id="tablaRecetas">
+        <thead>
+            <tr>
+                <th>Nº</th>
+                <th>Nombre receta</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        { % for receta in recetas % }
+        <tbody>
+            <tr>
+                <td id="columnaN"></td>
+                <td>{{ receta.nombre }}</td>
+                <td><a href=""><input type="button" value="Ver" class="btn btn-primary"></a></td>
+            </tr>
+        </tbody>
+        { % endfor % }
+    </table>
+    
+</div>
+<script>
+    let contador=1;
+
+    function agregarN(){
+    const tableBody = document.getElementById('tablaRecetas').getElementsByTagName('tbody')[0];
+    const rows = tableBody.getElementsByTagName('tr');
+
+            // Crear una nueva fila
+            const newRow = tableBody.insertRow();
+            
+            // Crear las celdas de la fila
+            const cell1 = newRow.insertCell(0);
+            cell1.textContent = contador++;
+    
+    }
+    document.getElementById('columnaN').textContent = agregarN();
+    
+</script>
+{% endblock %}

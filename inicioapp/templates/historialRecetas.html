@@ -1,0 +1,38 @@
+{% extends 'layouts/plantilla.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1>Historial recetas buscadas</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Ranking</th>
+            <th>Nombre</th>
+            <th>Cantidad de búsquedas</th>
+            <th>Ver</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>30</td>
+            <td>Juan Pérez</td>
+            <td>Lima</td>
+            <td>👀</td>
+        </tr>
+        <tr>
+            <td>25</td>
+            <td>Ana Gómez</td>
+            <td>Trujillo</td>
+            <td>👀</td>
+        </tr>
+        <tr>
+            <td>40</td>
+            <td>Pedro Fernández</td>
+            <td>Arequipa</td>
+            <td>👀</td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}
+
