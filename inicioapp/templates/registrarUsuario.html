@@ -3,8 +3,20 @@
 {% load static %}
 
 {% block content %}
-<form action="" class="formRegistrar" method="post">
+<form  method="POST" action="{% url 'registraUsuario' %}" class="formRegistrar" >
     {% csrf_token %}
+    {% if form.errors %}
+        <div class="errors">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
     <div class="form-container" style="width: 400px">
         <div class="form-group">
             <label for="">Nombres:</label>
@@ -27,9 +39,15 @@
                 <label for="">Usuario:</label>
                 <input type="text" placeholder="Usuario" id="username" name="username">
             </div>
+        </div>
+        <div class="form-group" style="display: flex;">
+            <div>
+                <label for="password1">Contraseña:</label>
+                <input type="password" name="password1" id="password1" placeholder="Contraseña">
+            </div>
             <div style="margin-left: auto;">
-                <label for="">Contraseña:</label>
-                <input type="password" name="password" id=" password">
+                <label for="password2">Confirmar Contraseña:</label>
+                <input type="password" name="password2" id="password2" placeholder="Confirmar Contraseña">
             </div>
         </div>
         <div class="form-group">
@@ -76,48 +94,48 @@
 </form>
 <script>
     document.getElementById('departamento').addEventListener('change', function() {
-        const departamentoId = this.value;
-        const provinciaSelect = document.getElementById('provincia');
-        const distritoSelect = document.getElementById('distrito');
-        
-        // Limpiar las opciones de provincia y distrito
-        provinciaSelect.innerHTML = '<option value="">Seleccione una provincia</option>';
-        distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>';
+    const departamentoId = this.value;
+    console.log('Departamento seleccionado:', departamentoId);  
+    const provinciaSelect = document.getElementById('provincia');
+    const distritoSelect = document.getElementById('distrito');
+    
+    provinciaSelect.innerHTML = '<option value="">Seleccione una provincia</option>';
+    distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>';
 
-        if (departamentoId) {
-            fetch(`/provincias/?departamento_id=${departamentoId}`)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(provincia => {
-                        const option = document.createElement('option');
-                        option.value = provincia.id;
-                        option.textContent = provincia.nombre;
-                        provinciaSelect.appendChild(option);
-                    });
+    if (departamentoId) {
+        fetch(`/provincias/?departamento_id=${departamentoId}`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(provincia => {
+                    const option = document.createElement('option');
+                    option.value = provincia.id;
+                    option.textContent = provincia.nombre;
+                    provinciaSelect.appendChild(option);
                 });
-        }
-    });
+            });
+    }
+});
 
-    document.getElementById('provincia').addEventListener('change', function() {
-        const provinciaId = this.value;
-        const distritoSelect = document.getElementById('distrito');
+document.getElementById('provincia').addEventListener('change', function() {
+    const provinciaId = this.value;
+    const distritoSelect = document.getElementById('distrito');
 
-        // Limpiar las opciones de distrito
-        distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>';
+    distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>';
 
-        if (provinciaId) {
-            fetch(`/distritos/?provincia_id=${provinciaId}`)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(distrito => {
-                        const option = document.createElement('option');
-                        option.value = distrito.id;
-                        option.textContent = distrito.nombre;
-                        distritoSelect.appendChild(option);
-                    });
+    if (provinciaId) {
+        fetch(`/distritos/?provincia_id=${provinciaId}`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(distrito => {
+                    const option = document.createElement('option');
+                    option.value = distrito.id;
+                    option.textContent = distrito.nombre;
+                    distritoSelect.appendChild(option);
                 });
-        }
-    });
+            });
+    }
+});
+
 </script>
 
 

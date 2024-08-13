@@ -61,4 +61,16 @@ class Distrito(models.Model):
     def __str__(self):
         return self.nombre
 
+class PerfilUsuario(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    nombres = models.CharField(max_length=100)
+    apePaterno = models.CharField(max_length=100)
+    apeMaterno = models.CharField(max_length=100)
+    fechaNacimiento = models.DateField()
+    email = models.EmailField()
+    departamento = models.ForeignKey(Departamento, on_delete=models.SET_NULL, null=True)
+    provincia = models.ForeignKey(Provincia, on_delete=models.SET_NULL, null=True)
+    distrito = models.ForeignKey(Distrito, on_delete=models.SET_NULL, null=True)
 
+    def __str__(self):
+        return self.user.username

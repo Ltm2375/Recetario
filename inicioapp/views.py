@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
 from django.db.models import Count
 from django.http import JsonResponse
+from django.contrib.auth import login
 # Create your views here.
 
 def index(request):
@@ -14,7 +15,7 @@ def recetasComunes(request):
 def transparencia(request):
     return render(request,'transparencia.html')
 
-def login(request):
+def indexlogin(request):
     return render(request,'login.html')
 
 def asistenciaTecnica(request):
@@ -31,6 +32,40 @@ def indexRegistrar(request):
         'departamentos': departamentos,
     }
     return render(request, 'registrarUsuario.html', context)
+
+def registrar_usuario(request):
+    if request.method == 'POST':
+        form = RegistroUsuarioForm(request.POST)
+        if form.is_valid():
+            print("Datos del formulario:", form.cleaned_data)
+            user = form.save()
+            PerfilUsuario.objects.create(
+                user=user,
+                nombres=form.cleaned_data['nombres'],
+                apePaterno=form.cleaned_data['apePaterno'],
+                apeMaterno=form.cleaned_data['apeMaterno'],
+                fechaNacimiento=form.cleaned_data['fechaNacimiento'],
+                email=form.cleaned_data['email'],
+                departamento=form.cleaned_data['departamento'],
+                provincia=form.cleaned_data['provincia'],
+                distrito=form.cleaned_data['distrito']
+            )
+            login(request, user)
+            return redirect('indexlogin')
+        else:
+            #opciones para depurar
+            print("Errores del formulario:", form.errors)
+            print("Datos enviados:", request.POST)
+            print("Departamentos disponibles:", Departamento.objects.all())
+            print("Provincias disponibles:", Provincia.objects.all())
+            print("Distritos disponibles:", Distrito.objects.all())
+    else:
+        form = RegistroUsuarioForm()
+
+    return render(request, 'registrarUsuario.html', {'form': form})
+
+
+
 
 def provincias_por_departamento(request):
     departamento_id = request.GET.get('departamento_id')

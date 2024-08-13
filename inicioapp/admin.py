@@ -10,5 +10,6 @@ admin.site.register(Mensaje)
 admin.site.register(Departamento)
 admin.site.register(Provincia)
 admin.site.register(Distrito)
+admin.site.register(PerfilUsuario)
 
 
