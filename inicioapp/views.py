@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from .models import *
+from .forms import *
 from django.db.models import Count
+from django.http import JsonResponse
 # Create your views here.
 
 def index(request):
@@ -15,7 +17,6 @@ def transparencia(request):
 def login(request):
     return render(request,'login.html')
 
-
 def asistenciaTecnica(request):
     return render(request,'asistenciaTecnica.html')
 
@@ -23,9 +24,23 @@ def historialRecetas(request):
     return render(request,'historialRecetas.html')
 
 def indexRegistrar(request):
-    return render(request,'registrarUsuario.html')
+    form = RegistroUsuarioForm()
+    departamentos = Departamento.objects.all()
+    context = {
+        'form': form,
+        'departamentos': departamentos,
+    }
+    return render(request, 'registrarUsuario.html', context)
 
+def provincias_por_departamento(request):
+    departamento_id = request.GET.get('departamento_id')
+    provincias = Provincia.objects.filter(departamento_id=departamento_id).values('id', 'nombre')
+    return JsonResponse(list(provincias), safe=False)
 
+def distritos_por_provincia(request):
+    provincia_id = request.GET.get('provincia_id')
+    distritos = Distrito.objects.filter(provincia_id=provincia_id).values('id', 'nombre')
+    return JsonResponse(list(distritos), safe=False)
 
 def indexBuscarReceta(request):
     ingredientes = Ingrediente.objects.all()

@@ -10,5 +10,7 @@ urlpatterns = [
     path('historialReceta/',views.historialRecetas, name="historialRecetas"),
     path('index/',views.indexRegistrar, name="indexRegistrar"),
     path('buscarReceta/',views.buscar_receta,name="buscarReceta"),
-    path('registrar/',views.indexRegistrar,name="indexRegistrar")
+    path('registrar/',views.indexRegistrar,name="indexRegistrar"),
+    path('provincias/',views.provincias_por_departamento,name="provincias_por_departamento"),
+    path('distritos/',views.distritos_por_provincia,name="distritos_por_provincia")
 ]

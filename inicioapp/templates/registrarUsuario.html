@@ -5,7 +5,6 @@
 {% block content %}
 <form action="" class="formRegistrar" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
     <div class="form-container" style="width: 400px">
         <div class="form-group">
             <label for="">Nombres:</label>
@@ -33,7 +32,10 @@
                 <input type="password" name="password" id=" password">
             </div>
         </div>
-
+        <div class="form-group">
+            <label for="">Correo:</label>
+            <input type="text" placeholder="Correo" id="email" name="email">
+        </div>
         <div class="form-group" style="display: flex;">
             <div>
                 <label for="">Fecha nacimiento:</label>
@@ -42,10 +44,10 @@
             <div style="margin-left: auto">
                 <label for="">Departamento:</label>
                 <select id="departamento" style="width: 195px;" name="departamento">
-                    <option value="1">Manzana</option>
-                    <option value="2">Plátano</option>
-                    <option value="3">Cereza</option>
-                    <option value="4">Dátil</option>
+                    <option value="">Seleccione un departamento</option>
+                    {% for depto in form.fields.departamento.queryset %}
+                        <option value="{{ depto.id }}">{{ depto.nombre }}</option>
+                    {% endfor %}
                 </select>
             </div>
         </div>
@@ -54,19 +56,13 @@
             <div>
                 <label for="">Provincia:</label>
                 <select id="provincia"  style="width: 190px;" name="provincia">
-                    <option value="11">Manzana</option>
-                    <option value="22">Plátano</option>
-                    <option value="33">Cereza</option>
-                    <option value="44">Dátil</option>
+                    <option value="">Seleccione una provincia</option>
                 </select>
             </div>
             <div style="margin-left: auto;">
                 <label for="">Distrito:</label>
                 <select id="distrito" style="width: 195px;" name="distrito">
-                    <option value="111">Manzana</option>
-                    <option value="222">Plátano</option>
-                    <option value="333">Cereza</option>
-                    <option value="444">Dátil</option>
+                    <option value="">Seleccione un distrito</option>
                 </select>
             </div>
         </div>
@@ -78,7 +74,51 @@
 
     </div>
 </form>
+<script>
+    document.getElementById('departamento').addEventListener('change', function() {
+        const departamentoId = this.value;
+        const provinciaSelect = document.getElementById('provincia');
+        const distritoSelect = document.getElementById('distrito');
+        
+        // Limpiar las opciones de provincia y distrito
+        provinciaSelect.innerHTML = '<option value="">Seleccione una provincia</option>';
+        distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>';
 
+        if (departamentoId) {
+            fetch(`/provincias/?departamento_id=${departamentoId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(provincia => {
+                        const option = document.createElement('option');
+                        option.value = provincia.id;
+                        option.textContent = provincia.nombre;
+                        provinciaSelect.appendChild(option);
+                    });
+                });
+        }
+    });
+
+    document.getElementById('provincia').addEventListener('change', function() {
+        const provinciaId = this.value;
+        const distritoSelect = document.getElementById('distrito');
+
+        // Limpiar las opciones de distrito
+        distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>';
+
+        if (provinciaId) {
+            fetch(`/distritos/?provincia_id=${provinciaId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(distrito => {
+                        const option = document.createElement('option');
+                        option.value = distrito.id;
+                        option.textContent = distrito.nombre;
+                        distritoSelect.appendChild(option);
+                    });
+                });
+        }
+    });
+</script>
 
 
 {% endblock %}
