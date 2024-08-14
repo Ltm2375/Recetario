@@ -14,5 +14,6 @@ urlpatterns = [
     path('provincias/',views.provincias_por_departamento,name="provincias_por_departamento"),
     path('distritos/',views.distritos_por_provincia,name="distritos_por_provincia"),
     path('registrarUsuario/',views.registrar_usuario,name="registraUsuario"),
-    path('loginUsuario/',views.loginUsuario,name="loginUsuario")
+    path('loginUsuario/',views.loginUsuario,name="loginUsuario"),
+    path('cerrarSesion/',views.logoutUsuario,name="logoutUsuario")
 ]

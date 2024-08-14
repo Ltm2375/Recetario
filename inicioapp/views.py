@@ -77,6 +77,9 @@ def loginUsuario(request):
             messages.error(request, 'Usuario o contraseña incorrectos. Inténtalo de nuevo.')
     return render(request, 'login.html')
 
+def logoutUsuario(request):
+    logout(request)
+    return redirect('inicio')
 
 
 def provincias_por_departamento(request):

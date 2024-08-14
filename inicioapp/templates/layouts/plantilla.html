@@ -14,20 +14,25 @@
             <li><a href="{% url 'inicio' %}">Inicio</a></li>
             <li><a href="{% url 'recetasComunes' %}">Recetas comunes</a></li>
             <li><a href="{% url 'transparencia' %}">Transparencia</a></li>
-            <li><a href="{% url 'indexlogin' %}">Iniciar sesión</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'logoutUsuario' %}">Cerrar sesión</a></li>
+            {% else %}
+                <li><a href="{% url 'indexlogin' %}">Iniciar sesión</a></li>
+            {% endif %}
         </ul>
     </nav>
     
     
     <div class="divAsideSection">
+        {% if user.is_authenticated %}
         <aside>
             <a href="{% url 'indexBuscarReceta' %}">🔎Buscar receta</a>
             <a href="{% url 'historialRecetas' %}">🧾Historial recetas</a>
             <a href="{% url 'asistencia' %}">📪Asistencia técnica</a>
-            <a href="">🔐Cerrar Sesión</a>
+            <a href="{% url 'logoutUsuario' %}">🔐Cerrar Sesión</a>
         </aside>
-
-        <section>
+        {% endif %}
+        <section style="flex: 1;">
            {% block content %}
            {% endblock %}     
         </section>
