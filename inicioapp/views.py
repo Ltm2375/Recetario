@@ -101,18 +101,23 @@ def buscar_receta(request):
     if request.method == 'POST':
         
         ingredientes_ids = request.POST.getlist('ingredientes_ids')
-        if len(ingredientes_ids) < 3:
-            return render(request, 'buscarReceta.html', {'error': 'Se deben seleccionar al menos 3 ingredientes.'})
+        if ingredientes_ids:
+            ids_str = ingredientes_ids[0]  # Obtiene la primera cadena de la lista
+            ids_list = ids_str.split(',')  # Divide la cadena en una lista de IDs
+
+        if len(ids_list) < 3:
+            return redirect('indexBuscarReceta')
         
+        ingredientes_ids_list = [int(id_str) for id_str in ids_str.split(',')]
         # Encuentra las recetas que contienen al menos 3 de los ingredientes seleccionados
         recetas = Receta.objects.filter(
-            recetadetalle__idIngrediente__in=ingredientes_ids
+            recetadetalle__idIngrediente__in=ingredientes_ids_list
         ).annotate(
             num_ingredientes=Count('recetadetalle')
         ).filter(
             num_ingredientes__gte=3
         ).distinct()
-
+        
         return render(request, 'mostrarRecetas.html', {'recetas': recetas})
 
     return render(request, 'inicio.html')

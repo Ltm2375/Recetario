@@ -74,3 +74,8 @@ class PerfilUsuario(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class HistorialRecetas(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    receta_id = models.ForeignKey(Receta, on_delete=models.CASCADE, null=False)
+    fechaBuscada = models.DateTimeField(auto_now_add=True)
