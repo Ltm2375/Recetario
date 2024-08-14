@@ -5,6 +5,7 @@ from django.db.models import Count
 from django.http import JsonResponse
 from django.contrib.auth import *
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(request):
@@ -20,7 +21,8 @@ def indexlogin(request):
     return render(request,'login.html')
 
 def asistenciaTecnica(request):
-    return render(request,'asistenciaTecnica.html')
+    razones = ['Receta no encontrada','Ingrediente no encontrado','Problema con búsqueda','Problema con historial de recetas','Otro tipo de razón']
+    return render(request,'asistenciaTecnica.html',{'razones': razones})
 
 def historialRecetas(request):
     return render(request,'historialRecetas.html')
@@ -158,3 +160,38 @@ def historial_recetas(request):
     ]
 
     return render(request, 'historialRecetas.html', {'historial_recetas': historial_con_recetas})
+
+@login_required
+def asistenciaTecnica(request):
+    razones = [
+        'Receta no encontrada',
+        'Ingrediente no encontrado',
+        'Problema con búsqueda',
+        'Problema con historial de recetas',
+        'Otro tipo de razón'
+    ]
+    
+    if request.method == 'POST':
+        razon_texto = request.POST.get('razon_texto')  # Obtener el texto del select
+        motivo = request.POST.get('motivo', '').strip()
+        checkbox_checked = 'checkbox' in request.POST
+
+        if checkbox_checked:
+            razon = motivo if motivo else 'Otra razón'
+        else:
+            razon = razon_texto if razon_texto else 'Otra razón'
+
+        descripcion = request.POST.get('descripcion', '').strip()
+
+        if razon:  # Asegurarse de que el campo 'razon' no esté vacío
+            mensaje = Mensaje(
+                idUsuario=request.user,
+                razon=razon,
+                descripcion=descripcion
+            )
+            mensaje.save()
+            return redirect('asistencia')  # Reemplaza con la URL a la que redirigir después de guardar
+        else:
+            return render(request, 'asistenciaTecnica.html', {'razones': razones, 'error': 'Debes seleccionar una razón o ingresar un motivo.'})
+
+    return render(request, 'asistenciaTecnica.html', {'razones': razones})

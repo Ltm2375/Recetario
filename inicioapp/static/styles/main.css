@@ -225,6 +225,7 @@ tr:hover {
 }
 .formRegistrar{
     display: flex;
+    justify-content: center;
 }
 .form-container {
     background-color: darkseagreen;
