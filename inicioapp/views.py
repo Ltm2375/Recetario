@@ -118,6 +118,43 @@ def buscar_receta(request):
             num_ingredientes__gte=3
         ).distinct()
         
+        # Registrar el historial de recetas
+        if request.user.is_authenticated:
+            for receta in recetas:
+                # Verificar si ya existe un historial para esta receta y usuario
+                if not HistorialRecetas.objects.filter(user=request.user, receta_id=receta).exists():
+                    HistorialRecetas.objects.create(
+                        user=request.user,
+                        receta_id=receta,
+                    )
+
         return render(request, 'mostrarRecetas.html', {'recetas': recetas})
 
     return render(request, 'inicio.html')
+
+def historial_recetas(request):
+    
+    # Consulta las recetas buscadas por el usuario logueado
+    historial = HistorialRecetas.objects.filter(user=request.user).values('receta_id','fechaBuscada').annotate(
+        cantidad_busquedas=Count('receta_id')
+    ).order_by('-cantidad_busquedas')  # Ordenar por cantidad de búsquedas descendente
+
+    # Obtén los IDs de recetas
+    receta_ids = [entry['receta_id'] for entry in historial]
+    
+    # Obtén las recetas completas
+    recetas = Receta.objects.filter(id__in=receta_ids)
+
+    # Mapea recetas a sus conteos
+    receta_dict = {receta.id: receta for receta in recetas}
+
+    # Agrega información de receta y cantidad de búsquedas
+    historial_con_recetas = [
+        {
+            'receta': receta_dict[entry['receta_id']],
+            'fechaBuscada': entry['fechaBuscada']
+        }
+        for entry in historial
+    ]
+
+    return render(request, 'historialRecetas.html', {'historial_recetas': historial_con_recetas})

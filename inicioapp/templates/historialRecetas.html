@@ -14,25 +14,16 @@
         </tr>
     </thead>
     <tbody>
+        {% for entry in historial_recetas %}
         <tr>
-            <td>30</td>
-            <td>Juan Pérez</td>
-            <td>Lima</td>
-            <td>👀</td>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ entry.receta.nombre }}</td>
+            <td>{{ entry.fechaBuscada|date:"d/m/Y H:i" }}</td> <!-- Formato de fecha -->
+            <td><a href=""><input type="button" value="Ver" class="btn btn-primary"></a></td>
         </tr>
-        <tr>
-            <td>25</td>
-            <td>Ana Gómez</td>
-            <td>Trujillo</td>
-            <td>👀</td>
-        </tr>
-        <tr>
-            <td>40</td>
-            <td>Pedro Fernández</td>
-            <td>Arequipa</td>
-            <td>👀</td>
-        </tr>
+        {% endfor %}
     </tbody>
 </table>
+
 {% endblock %}
 
