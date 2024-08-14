@@ -3,7 +3,8 @@ from .models import *
 from .forms import *
 from django.db.models import Count
 from django.http import JsonResponse
-from django.contrib.auth import login
+from django.contrib.auth import *
+from django.contrib import messages
 # Create your views here.
 
 def index(request):
@@ -64,6 +65,17 @@ def registrar_usuario(request):
 
     return render(request, 'registrarUsuario.html', {'form': form})
 
+def loginUsuario(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('inicio')  # Redirige a la página de inicio o donde desees
+        else:
+            messages.error(request, 'Usuario o contraseña incorrectos. Inténtalo de nuevo.')
+    return render(request, 'login.html')
 
 
 
